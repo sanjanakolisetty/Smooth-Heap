@@ -5,14 +5,14 @@
 #include <deque>
 #include <utility>
 
-// A specialized version of the 'priority_queue' ADT implemented as a pairing priority_queue.
+// Description: Smooth Heap ADT for EECS 477 (Intro to Algorithms) Final Project.
 template<typename TYPE, typename COMP_FUNCTOR = std::greater<TYPE>>
 class SmoothPQ : public Eecs477PQ<TYPE, COMP_FUNCTOR> {
     // This is a way to refer to the base class object.
     using BaseClass = Eecs477PQ<TYPE, COMP_FUNCTOR>;
     
 public:
-    // Each node within the pairing heap
+    // Each node within the smooth heap
     class Node {
     public:
         explicit Node(const TYPE &val)
@@ -20,7 +20,6 @@ public:
         {}
         
         // Description: Allows access to the element at that Node's position.
-        // Runtime: O(1) - this has been provided for you.
         const TYPE &getElt() const { return elt; }
         
         friend SmoothPQ;
@@ -36,7 +35,6 @@ public:
     
     
     // Description: Construct an empty priority_queue with an optional comparison functor.
-    // Runtime: O(1)
     explicit SmoothPQ(COMP_FUNCTOR comp = COMP_FUNCTOR()) :
     BaseClass{ comp } {
         this->compare = comp;
@@ -46,7 +44,6 @@ public:
     
     
     // Description: Destructor
-    // Runtime: O(n)
     ~SmoothPQ() {
         std::deque <Node*> pq;
         if (root == nullptr) {
@@ -65,9 +62,7 @@ public:
     } // ~SmoothPQ()
     
     
-    // Description: Add a new element to the priority_queue. This has been provided for you,
-    //              in that you should implement push functionality in the
-    //              addNode function.
+    // Description: Add a new element to the priority_queue. 
     // Runtime: Amortized O(1)
     virtual void push(const TYPE & val) {
         addNode(val);
@@ -145,8 +140,8 @@ public:
         return s == 0;
     } // empty()
     
-    //make it the rightmost sibling of root and link with root
-    
+    // Description: Update element at a particular node and cascade update structure of heap.
+    // Runtime: ?
     void updateElt(Node* node, const TYPE & new_value) {
         if (node == nullptr) return; //no work required
         //SPECIAL CASE: node is root
@@ -215,7 +210,8 @@ public:
         return n;
     } // addNode()
     
-    //MELD: return the new root
+    //Description: update priorities of heap and return the new root
+    // Runtime: ?
     Node* meld(Node* x, Node* y)
     {
         if (!y) return x;
